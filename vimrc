@@ -11,7 +11,8 @@ set sw=2
 set splitbelow
 set splitright
 set hlsearch
-"set background=light
+colorscheme elflord
+set background=dark
 syntax on
 set title
 "           +--Disable hlsearch while loading viminfo
@@ -24,6 +25,7 @@ set title
 "           v v    v      v     v     v
 set viminfo=h,'500,<10000,s1000,/1000,:1000
 set wildmode=list:longest,full
+set printoptions=number:y
 
 "====[ Goto last location in non-empty files ]=======
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -49,10 +51,12 @@ Nmap           ;r   [reload .vimrc]        :source $MYVIMRC<CR>
 Nmap <silent>  ;v   [Edit .vimrc]          :next $MYVIMRC<CR>
 Nmap           ;vv  [Edit .vim/plugin/...] :next ~/.vim/plugin/
 
+Nmap <silent>  ;n   [toggle numbers]        :set number!<CR>
+
 set t_Co=8
 set t_Sf=[3%p1%dm
 
-hi Search ctermfg=Black ctermbg=Yellow
+hi Search ctermfg=Grey ctermbg=BLUE
 hi Comment ctermfg=white
 
 "=====[ Make * respect smartcase and also set @/ (to enable 'n' and 'N') ]======
@@ -70,6 +74,7 @@ noremap <Leader>mi :!make install<CR>
 noremap  <F9>  :ga<CR>
 "nnoremap * :set hls<CR>:exec "let @/='\\<".expand("<cword>")."\\>'"<CR>
 noremap  <BS>  :set hls!<CR>
+noremap  <F10> 0o######## DEV-ONLY ########<ESC>j0
 noremap  <F12> :!cvs diff -w % <Bar> colorize<CR>
 nnoremap <silent> <Leader>k mk:exe 'match Search /<Bslash>%'.line(".").'l/'<CR>
 "=====[ Extend a previous match ]=====================================
@@ -119,11 +124,17 @@ let b:match_debug = 1
 "=====[ Add or subtract comments ]===============================
 
 " Work out what the comment character is, by filetype...
+echo &ft
+autocmd FileType           javascript,typescript          let b:cmt = exists('b:cmt') ? b:cmt : '//'
 autocmd FileType           *sh,awk,python,perl,perl6,ruby let b:cmt = exists('b:cmt') ? b:cmt : '#'
 autocmd FileType           vim                            let b:cmt = exists('b:cmt') ? b:cmt : '"'
+autocmd FileType           dosbatch                       let b:cmt = exists('b:cmt') ? b:cmt : 'REM '
 autocmd BufNewFile,BufRead *.vim,.vimrc                   let b:cmt = exists('b:cmt') ? b:cmt : '"'
-autocmd BufNewFile,BufRead *                              let b:cmt = exists('b:cmt') ? b:cmt : '#'
 autocmd BufNewFile,BufRead *.p[lm],.t                     let b:cmt = exists('b:cmt') ? b:cmt : '#'
+autocmd BufNewFile,BufRead *.bat                          let b:cmt = exists('b:cmt') ? b:cmt : 'REM '
+autocmd BufNewFile,BufRead *.js,*.ts                      let b:cmt = exists('b:cmt') ? b:cmt : '//'
+autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.hpp,*.java     let b:cmt = exists('b:cmt') ? b:cmt : '//'
+autocmd BufNewFile,BufRead *                              let b:cmt = exists('b:cmt') ? b:cmt : '#'
 
 " Work out whether the line has a comment then reverse that condition...
 function! ToggleComment ()
@@ -176,16 +187,28 @@ endfunction
 nmap <silent> # :call ToggleComment()<CR>j0
 vmap <silent> # :call ToggleBlock()<CR>
 
-"=====[ Auto-setup for Perl scripts and modules ]===========
+"=====[ Auto-setup for template scripts and modules ]===========
 augroup Perl_Setup
     autocmd!
     autocmd BufNewFile *.p[lm] 0r !file_template <afile>
     autocmd BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
+
+    autocmd BufNewFile pom.xml 0r !file_template <afile>
+    autocmd BufNewFile pom.xml /#HERE/
+
+    autocmd BufNewFile *.sh 0r !file_template <afile>
+    autocmd BufNewFile *.sh /here/
 augroup END
 
-"=====[ Perltidy ]===========================================================
-Nmap ;p   [Perltidy the current buffer]   :w<CR>:! perltidy -pbp -b -nst %<CR>:e!<CR>
-Nmap ;pp  [Perltidy diff the current buffer] :call Perltidy_diff()<CR>
+
+Nmap ;pp  [diff the current buffer] :call DiffWithSaved()<CR>
+function! DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
 
 function! Perltidy_diff ()
     " Work out what the tidied file will be called...
@@ -202,17 +225,34 @@ function! Perltidy_diff ()
     call delete(tidy_file)
 endfunction
 
-"=====[ cvsdiff ]===========================================================
-Nmap ;c  [cvsdiff the current buffer]  :w<CR>:!git diff<CR>
-Nmap ;cc [cvsdiff diff current buffer] :call CVS_diff()<CR>
+"=====[ gitdiff ]===========================================================
+nmap <silent> ;c  :call BUF_DIFF()<CR>
+nmap <silent> ;cc :call GIT_DIFF()<CR>
 
-function! CVS_diff ()
-    " Work out what the tidied file will be called...
-    let module = readfile('CVS/Repository')
+function! BUF_DIFF ()
+    " Work out what the git file will be called...
     let file = expand( '%' )
     let head_file = 'head.txt'
 
-    "    call system( 'perltidy -nst ' . perl_file . ' -o ' . tidy_file )
+    call system( 'cp ' . file . ' > ' . head_file )
+
+    " Add the diff to the right of the current window...
+    set splitright
+    exe ":vertical diffsplit " . head_file
+
+    " Clean up the head version...
+    call delete(head_file)
+endfunction
+
+function! GIT_DIFF ()
+    " Work out what the git file will be called...
+    let file = expand( '%' )
+    let head_file = 'head.txt'
+
+    echo head_file
+
+    call system( 'git show origin/develop:./' . file . ' > ' . head_file )
+
 
     " Add the diff to the right of the current window...
     set splitright
@@ -243,4 +283,7 @@ endfunction
 
 vmap ;s :call SortBlock()<CR>
 
+"====[ Pathogen Runtime ]===================================
+execute pathogen#infect()
 
+let g:indentLine_enabled = 0

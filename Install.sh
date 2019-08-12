@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 protected=(./LICENSE ./Install.sh ./vimrc ./Makefile .netrwhist )
 
 if ! cmp -s $HOME/.vimrc vimrc ; then
   echo updating .vimrc
   if [[ $1 == "diff" ]] ; then
-    diff $HOME/.vimrc vimrc
+    colordiff -bw $HOME/.vimrc vimrc
   fi
   if [[ $1 == "commit" ]] ; then
     echo -- $HOME/.vimrc vimrc
@@ -30,7 +30,7 @@ do
     if ! cmp -s $HOME/.vim/$file $file ; then
       echo updating $file
       if [[ $1 == "diff" ]] ; then
-        diff $HOME/.vim/$file $file 
+        colordiff -bw $HOME/.vim/$file $file 
       fi
       if [[ $1 == "commit" ]] ; then
         echo -- $file $HOME/.vim/$file
