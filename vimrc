@@ -62,10 +62,18 @@ hi Comment ctermfg=white
 "=====[ Make * respect smartcase and also set @/ (to enable 'n' and 'N') ]======
 nmap *  :let @/ = '\<'.expand('<cword>').'\>' ==? @/ ? @/ : '\<'.expand('<cword>').'\>'<CR>:set hls<CR>
 
-noremap <ESC>[A <C-W>k
-noremap <ESC>[B <C-W>j
-noremap <ESC>[C <C-W>l
-noremap <ESC>[D <C-W>h
+" use CTRL-K to determine the keystroke for the terminal
+if has('unix')
+  noremap <S-UP>    <C-W>k
+  noremap <S-DOWN>  <C-W>j
+  noremap <S-RIGHT> <C-W>l
+  noremap <S-LEFT>  <C-W>h
+else
+  noremap <ESC>[A <C-W>k
+  noremap <ESC>[B <C-W>j
+  noremap <ESC>[C <C-W>l
+  noremap <ESC>[D <C-W>h
+endif
 
 noremap <Leader>s :%s/<C-R><C-w>//<CR>
 noremap <Leader>mt :!make test TEST_VERBOSE=1<CR>
@@ -120,8 +128,6 @@ let b:match_words =
 
 " Engage debugging mode to overcome bug in matchpairs matching...
 let b:match_debug = 1
-
-"=====[ Add or subtract comments ]===============================
 
 " Work out what the comment character is, by filetype...
 echo &ft
