@@ -1,10 +1,16 @@
+INCLUDE=--include='.vimrc' --include='.vim/***'
+EXCLUDE=--exclude='*'
+RSYC_OPT=-avhc
 
 diff :
 	diff -rw src/.vimrc ${HOME}/.vimrc  || true
 	diff -rw src/.vim ${HOME}/.vim      || true
 
 fake :
-	rsync --dry-run -avhc src/ ${HOME}
+	rsync --dry-run $(RSYC_OPT)	 $(INCLUDE) $(EXCLUDE) src/ ${HOME}/ 
+
+sync :
+	rsync $(RSYC_OPT) $(INCLUDE) $(EXCLUDE) ${HOME}/ src/
 
 install :
-	rsync -avhc src/ ${HOME}
+	rsync $(RSYC_OPT) $(INCLUDE) $(EXCLUDE) src/ ${HOME}/ 
