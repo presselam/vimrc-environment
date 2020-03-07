@@ -1,9 +1,10 @@
 
 diff :
-	Install.sh diff
+	diff -rw src/.vimrc ${HOME}/.vimrc  || true
+	diff -rw src/.vim ${HOME}/.vim      || true
 
 fake :
-	Install.sh
+	rsync --dry-run -avhc src/ ${HOME}
 
 install :
-	Install.sh commit
+	rsync -avhc src/ ${HOME}
