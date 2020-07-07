@@ -113,7 +113,9 @@ endif
 "=====[ Configure % key (via matchit plugin) ]==============================
 
 " Match angle brackets...
-set matchpairs+=<:>,«:»
+if !has('win32')
+  set matchpairs+=<:>,«:»
+endif  
 
 " Match double-angles, XML tags and Perl keywords...
 let TO = ':'
@@ -151,125 +153,125 @@ function! ToggleComment ()
     let currline = getline(".")
 
     " If so, remove it and rewrite the line...
-    if currline =~ '^' . comment_char
-        let repline = substitute(currline, '^' . comment_char, "", "")
+    if currline =~ '^\s*' . comment_char
+        let repline = substitute(currline, '^\s*' . comment_char, "", "")
         call setline(".", repline)
 
-    " Otherwise, insert it...
-    else
+        " Otherwise, insert it...
+        else
         let repline = substitute(currline, '^', comment_char, "")
         call setline(".", repline)
-    endif
-endfunction
+        endif
+        endfunction
 
-" Toggle comments down an entire visual selection of lines...
-function! ToggleBlock () range
-    " What's the comment character???
-    let comment_char = exists('b:cmt') ? b:cmt : '#'
+        " Toggle comments down an entire visual selection of lines...
+        function! ToggleBlock () range
+        " What's the comment character???
+        let comment_char = exists('b:cmt') ? b:cmt : '#'
 
-    " Start at the first line...
-    let linenum = a:firstline
+        " Start at the first line...
+        let linenum = a:firstline
 
-    " Get all the lines, and decide their comment state by examining the first...
-    let currline = getline(a:firstline, a:lastline)
-    if currline[0] =~ '^' . comment_char
-        " If the first line is commented, decomment all...
-        for line in currline
-            let repline = substitute(line, '^' . comment_char, "", "")
-            call setline(linenum, repline)
-            let linenum += 1
-        endfor
-    else
-        " Otherwise, encomment all...
-        for line in currline
-            let repline = substitute(line, '^\('. comment_char . '\)\?', comment_char, "")
-            call setline(linenum, repline)
-            let linenum += 1
-        endfor
-    endif
-endfunction
+  " Get all the lines, and decide their comment state by examining the first...
+let currline = getline(a:firstline, a:lastline)
+  if currline[0] =~ '^\s*' . comment_char
+  " If the first line is commented, decomment all...
+  for line in currline
+  let repline = substitute(line, '^\s*' . comment_char, "", "")
+call setline(linenum, repline)
+  let linenum += 1
+  endfor
+  else
+  " Otherwise, encomment all...
+  for line in currline
+  let repline = substitute(line, '^\('. comment_char . '\)\?', comment_char, "")
+call setline(linenum, repline)
+  let linenum += 1
+  endfor
+  endif
+  endfunction
 
-" Set up the relevant mappings
-nmap <silent> # :call ToggleComment()<CR>j0
-vmap <silent> # :call ToggleBlock()<CR>
+  " Set up the relevant mappings
+  nmap <silent> # :call ToggleComment()<CR>j0
+  vmap <silent> # :call ToggleBlock()<CR>
 
-"=====[ Auto-setup for template scripts and modules ]===========
-augroup Perl_Setup
-    autocmd!
-    autocmd BufNewFile *.p[lm] 0r !file_template <afile>
-    autocmd BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
+  "=====[ Auto-setup for template scripts and modules ]===========
+  augroup Perl_Setup
+  autocmd!
+  autocmd BufNewFile *.p[lm] 0r !file_template <afile>
+  autocmd BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
 
-    autocmd BufNewFile pom.xml 0r !file_template <afile>
-    autocmd BufNewFile pom.xml /#HERE/
+  autocmd BufNewFile pom.xml 0r !file_template <afile>
+  autocmd BufNewFile pom.xml /#HERE/
 
-    autocmd BufNewFile *.sh 0r !file_template <afile>
-    autocmd BufNewFile *.sh /here/
-augroup END
+  autocmd BufNewFile *.sh 0r !file_template <afile>
+  autocmd BufNewFile *.sh /here/
+  augroup END
 
 
-Nmap ;pp  [diff the current buffer] :call DiffWithSaved()<CR>
+  Nmap ;pp  [diff the current buffer] :call DiffWithSaved()<CR>
 function! DiffWithSaved()
   let filetype=&ft
   diffthis
   vnew | r # | normal! 1Gdd
   diffthis
   exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-endfunction
+  endfunction
 
 function! Perltidy_diff ()
-    " Work out what the tidied file will be called...
-    let perl_file = expand( '%' )
-    let tidy_file = perl_file . '.tdy'
+  " Work out what the tidied file will be called...
+  let perl_file = expand( '%' )
+  let tidy_file = perl_file . '.tdy'
 
-    call system( 'perltidy -nst ' . perl_file . ' -o ' . tidy_file )
+  call system( 'perltidy -nst ' . perl_file . ' -o ' . tidy_file )
 
-    " Add the diff to the right of the current window...
-    set splitright
-    exe ":vertical diffsplit " . tidy_file
+  " Add the diff to the right of the current window...
+  set splitright
+  exe ":vertical diffsplit " . tidy_file
 
-    " Clean up the tidied version...
-    call delete(tidy_file)
-endfunction
+  " Clean up the tidied version...
+call delete(tidy_file)
+  endfunction
 
-"=====[ gitdiff ]===========================================================
-nmap <silent> ;c  :call BUF_DIFF()<CR>
-nmap <silent> ;cc :call GIT_DIFF()<CR>
+  "=====[ gitdiff ]===========================================================
+  nmap <silent> ;c  :call BUF_DIFF()<CR>
+  nmap <silent> ;cc :call GIT_DIFF()<CR>
 
 function! BUF_DIFF ()
-    " Work out what the git file will be called...
-    let file = expand( '%' )
-    let head_file = 'head.txt'
+  " Work out what the git file will be called...
+  let file = expand( '%' )
+  let head_file = 'head.txt'
 
-    call system( 'cp ' . file . ' > ' . head_file )
+  call system( 'cp ' . file . ' > ' . head_file )
 
-    " Add the diff to the right of the current window...
-    set splitright
-    exe ":vertical diffsplit " . head_file
+  " Add the diff to the right of the current window...
+  set splitright
+  exe ":vertical diffsplit " . head_file
 
-    " Clean up the head version...
-    call delete(head_file)
-endfunction
+  " Clean up the head version...
+call delete(head_file)
+  endfunction
 
 function! GIT_DIFF ()
-    " Work out what the git file will be called...
-    let file = expand( '%' )
-    let head_file = 'head.txt'
+  " Work out what the git file will be called...
+  let file = expand( '%' )
+  let head_file = 'head.txt'
 
-    echo head_file
+  echo head_file
 
-    call system( 'git show origin/develop:./' . file . ' > ' . head_file )
+  call system( 'git show origin/develop:./' . file . ' > ' . head_file )
 
 
-    " Add the diff to the right of the current window...
-    set splitright
-    exe ":vertical diffsplit " . head_file
+  " Add the diff to the right of the current window...
+  set splitright
+  exe ":vertical diffsplit " . head_file
 
-    " Clean up the head version...
-    call delete(head_file)
-endfunction
+  " Clean up the head version...
+call delete(head_file)
+  endfunction
 
-"====[ insert markers ]===================================================
-nmap mm :call Marker()<CR>
+  "====[ insert markers ]===================================================
+  nmap mm :call Marker()<CR>
 
 function! Marker ()
   let comment_char = exists('b:cmt') ? b:cmt : '#'
@@ -278,16 +280,37 @@ function! Marker ()
   let marker = comment_char . '====[ ' . currline . ' ]' . repeat('=', 51-len(currline))
 
   let indx = line('.')
-  call append(indx -1, marker)
+call setline(indx, marker)
 
-endfunction
+  endfunction
 
-"====[ block sort ]=========================================
-function! SortBlock () range
+  "====[ block sort ]=========================================
+  function! SortBlock () range
   execute ":" . a:firstline . "," . a:lastline . " sort"
+  endfunction
+
+  vmap ;s :call SortBlock()<CR>
+
+  "====[ formatting ]=========================================
+  command! -nargs=1 PadTo :call PadLine(<q-args>)
+function! PadLine (column) 
+  " find the first column position with a whitespace
+  " pad out from there
+  let pos = virtcol('.')
+  let currline = getline('.')
+  while strcharpart(strpart(currline, pos- 1), 0, 1) != ' '
+    if pos == len(currline)
+      break
+    endif
+    let pos += 1
+  endwhile
+
+  let strEnd = strpart(currline, pos-1)
+  let strClean = substitute(strEnd, '^\s*\(.\{-}\)\s*$', '\1', '')
+
+  call setline('.', strpart(currline, 0, pos-1) . repeat(' ', a:column-pos) . strClean) 
 endfunction
 
-vmap ;s :call SortBlock()<CR>
 
 "====[ Pathogen Runtime ]===================================
 execute pathogen#infect()
