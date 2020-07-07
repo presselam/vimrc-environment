@@ -1,4 +1,4 @@
-INCLUDE=--include='.vimrc' --include='.vim/***'
+INCLUDE=--include='.vimrc' --include='.vim/***' --include='bin/***' --include='.templates/***'
 EXCLUDE=--exclude='*'
 RSYC_OPT=-avhc
 
