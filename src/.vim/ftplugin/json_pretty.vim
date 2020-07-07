@@ -6,8 +6,8 @@ if exists("b:did_json_pretty")
 endif
 let b:did_json_pretty = 1
 
-Nmap ;p [pack json data]    :%!$HOME/bin/json.pl --pack<CR>
-Nmap ;u [unpack json data]  :%!$HOME/bin/json.pl --unpack<CR>
+Nmap ;p [pack json data]    :%!jq -c -r '.'<CR>
+Nmap ;u [unpack json data]  :%!jq -r '.'<CR>
 
 set foldmethod=syntax
 set foldlevel=99
