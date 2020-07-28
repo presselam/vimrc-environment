@@ -13,13 +13,16 @@ nmap <F3>   :! perldoc %<CR>
 nmap <F4>   :w<CR>:! perltidy -pbp -b -nst %<CR>:e!<CR>
 nmap <F9>   :! dprofpp -u -p %<CR>
 
-nmap <F10> 0o######## DEV-ONLY ########<ESC>o
 
 "=====[ Shortcuts ]=========================================================
 iab utq quick(); use Toolkit;<ESC>3ba
 iab upo printObject(); use Toolkit;<ESC>3ba
 
 "=====[ Perltidy ]===========================================================
+Nmap ;p   [Perltidy the current buffer]   :w<CR>:! perltidy -b -nst %<CR>:e!<CR>
+Nmap ;pp  [Perltidy diff the current buffer] :call Perltidy_diff()<CR>
+
+"====[ Perldoc  ]===========================================
 " put the cursor over a perl function and try backslash-pf to see perldoc
 nmap <Leader>pf :!perldoc -f <cword><CR>
 
