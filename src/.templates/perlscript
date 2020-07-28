@@ -9,7 +9,7 @@ use Getopt::Long;
 use Toolkit;
 
 my %opts;
-if( !GetOptions(\%opts, 'commit') ){
+if( !GetOptions(\%opts, 'verbose','commit') ){
   die("Invalid incantation\n");
 }
 
