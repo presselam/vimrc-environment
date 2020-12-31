@@ -294,8 +294,8 @@ endfunction
 execute pathogen#infect()
 
 "====[ ALE Mapping ]========================================
-nmap <silent> ;ak :ALEPrevious<CR>
-nmap <silent> ;aj :ALENext<CR>
+nmap <silent> <C-Up>   :ALEPrevious<CR>
+nmap <silent> <C-Down> :ALENext<CR>
 
 let g:indentLine_enabled = 0
 let g:airline_powerline_fonts = 1
