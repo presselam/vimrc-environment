@@ -18,3 +18,6 @@ sync :
 
 install :
 	rsync $(RSYC_OPT) $(INCLUDE) $(EXCLUDE) src/ ${HOME}/
+
+pathogen:
+	installBundles.sh

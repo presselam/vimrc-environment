@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Title: <FILENAME>
 # Descr: 
@@ -6,6 +6,8 @@
 # Ver  : 1.0
 
 source "$HOME/bin/common.sh"
+
+BINDIR=$(readlink -f "$(dirname "$0")")
 
 # Implementation here
 

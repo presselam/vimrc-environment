@@ -27,6 +27,9 @@ set viminfo=h,'500,<10000,s1000,/1000,:1000
 set wildmode=list:longest,full
 set printoptions=number:y
 
+"====[ Pathogen Runtime ]===================================
+execute pathogen#infect()
+
 "====[ Color ANSI Codes ]===================================
 autocmd BufNewFile,BufReadPost * ColorToggle
 
@@ -56,7 +59,7 @@ Nmap           ;vv  [Edit .vim/plugin/...] :next ~/.vim/plugin/
 
 Nmap <silent>  ;n   [toggle numbers]        :set number!<CR>
 
-set t_Co=8
+set t_Co=256
 set t_Sf=[3%p1%dm
 
 hi Search ctermfg=Grey ctermbg=BLUE
@@ -137,6 +140,7 @@ let b:match_debug = 1
 " Work out what the comment character is, by filetype...
 echo &ft
 autocmd FileType           javascript,typescript          let b:cmt = exists('b:cmt') ? b:cmt : '//'
+autocmd FileType           Jenkinsfile                    let b:cmt = exists('b:cmt') ? b:cmt : '//'
 autocmd FileType           *sh,awk,python,perl,perl6,ruby let b:cmt = exists('b:cmt') ? b:cmt : '#'
 autocmd FileType           vim                            let b:cmt = exists('b:cmt') ? b:cmt : '"'
 autocmd FileType           dosbatch                       let b:cmt = exists('b:cmt') ? b:cmt : 'REM '
@@ -289,9 +293,19 @@ function! PadLine (column)
   call setline('.', strpart(currline, 0, pos-1) . repeat(' ', a:column-pos) . strClean) 
 endfunction
 
+"====[ Argo Workflow ]======================================
+nmap ;as :ArgoSubmit<CR>
+nmap ;al :ArgoLint<CR>
+nmap ;an :ArgoNewWorkflow<CR>
 
-"====[ Pathogen Runtime ]===================================
-execute pathogen#infect()
+"====[ Tagbar ]=============================================
+nmap <F12> :TagbarToggle<CR>
+
+
+"====[ ALE Mapping ]========================================
+nmap <F11>             :ALEDetail<CR>
+nmap <silent> <C-Up>   :ALEPrevious<CR>
+nmap <silent> <C-Down> :ALENext<CR>
 
 "====[ ALE Mapping ]========================================
 nmap <silent> <C-Up>   :ALEPrevious<CR>
@@ -299,3 +313,5 @@ nmap <silent> <C-Down> :ALENext<CR>
 
 let g:indentLine_enabled = 0
 let g:airline_powerline_fonts = 1
+
+runtime plugin/style.vim

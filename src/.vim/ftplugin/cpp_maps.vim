@@ -17,4 +17,6 @@ inoreab endl std::endl
 nmap ;p :!clang-format -i %<CR>:e!<CR>
 
 "====[ ALE Options ]========================================
-let g:ale_cpp_cc_options = '-std=c++14 -Wall -I ./include -I ../include'
+let g:ale_cpp_cc_options='-std=c++14 -Wall -I ./include -I ../include'
+let g:ale_c_clang_options='-std=c++14 -Wall -I ./include -I ../include'
+let g:ale_cpp_clang_options='-std=c++14 -Wall -I ./include -I ../include'
