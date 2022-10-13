@@ -7,11 +7,11 @@ set iskeyword+=:
 
 let b:cmt = '# '
 
-nmap gx yiw/^sub\s\+<C-R>"<CR>
 nmap <F2>   :!python %<CR>
 
 "=====[ Perltidy ]===========================================================
-Nmap ;p   [Perltidy the current buffer]   :w<CR>:! autopep8 -a -i %<CR>:e!<CR>
+let b:ale_fixers=['black']
+Nmap ;p   [autoformat the current buffer]   :ALEFix<CR>
 
 "====[ Indent Guides ]======================================
 set ts=4

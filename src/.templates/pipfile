@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+#[[source]]
+#name = "ods-pypi"
+#url = "${ODS_PYPI_REPO}"
+#verify_ssl = false
+
+[dev-packages]
+{$devonly}
+
+[packages]
+{$packages}
+
+[requires]
+python_version = "{$version}"
+
+[pipenv]
+allow_prereleases = true
