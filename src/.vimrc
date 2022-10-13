@@ -213,6 +213,9 @@ function! ToggleBlock () range
 
   autocmd BufNewFile *.sh 0r !file_template <afile>
   autocmd BufNewFile *.sh /here/
+
+  autocmd BufNewFile *.py 0r !file_template <afile>
+  autocmd BufNewFile *.py /^[ \t]*[#].*HERE/
  augroup END
 
 function! Perltidy_diff ()
