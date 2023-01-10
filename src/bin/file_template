@@ -18,7 +18,7 @@ my %dispatch = (
     '.sh'  => sub { scalar slurp( "$ENV{'HOME'}/.templates/bash" ) },
     '.pl'  => sub { scalar slurp( "$ENV{'HOME'}/.templates/perlscript" ) },
     '.pm'  => sub { scalar slurp( "$ENV{'HOME'}/.templates/perlmodule" ) },
-    '.raf' => sub { scalar slurp( "$ENV{'HOME'}/.templates/rafxml" ) },
+    '.py' => sub { scalar slurp( "$ENV{'HOME'}/.templates/pyscript" ) },
     'pom.xml' => sub{ scalar slurp("$ENV{'HOME'}/.templates/pomxml") },
 );
 

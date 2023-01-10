@@ -1,30 +1,88 @@
-if exists("loaded_styles")
+vim9script
+
+if exists("g:loaded_styles")
   finish
 endif
-let loaded_styles = 1
-"
-"echo 'loaded'
+g:loaded_styles = 1
 
-map <F6> :call <SID>SnakeCase()<CR>
+noremap <silent> <F5> :call KebabCase()<CR>
+noremap <silent> <F6> :call CamelCase()<CR>
+noremap <silent> <F7> :call SnakeCase()<CR>
+noremap <silent> <F8> :call PascalCase()<CR>
 
+def g:PascalCase(): void
 
-function! s:SnakeCase ()
-
+  setlocal nosmartcase
   setlocal iskeyword+=-
-  let varname = expand('<cword>')
-  setlocal iskeyword-=-
-  let word = substitute(varname,'[a-z]','/','ig')
-"  echo word
-"  let word = substitute(word,'\(\u\+\)\(\u\l\)','\1_\2','g')
-"  echo word
-"  let word = substitute(word,'\(\l\|\d\)\(\u\)','\1_\2','g')
-"  echo word
-"  let word = substitute(word,'[.-]','_','g')
-"  echo word
-  let retname = tolower(word)
-  echo '[' . retname . ']'
-"  for s:item in split(varname, '\zs')
-"    echoerr s:item
-"  endfor
+  var varname: string
+  varname = expand('<cword>')
 
-endfunction
+  var word: string
+  word = substitute(varname, '[-_]\(\l\)', '\u\1', 'g')
+  word = substitute(word, '^.', '\u&', '')
+
+  var currline: string
+  currline = getline('.')
+  currline = substitute(currline, varname, word, '')
+  call setline('.', currline)
+
+enddef
+
+def g:KebabCase(): void
+
+  setlocal nosmartcase
+  setlocal iskeyword+=-
+  var varname: string
+  varname = expand('<cword>')
+
+  var word: string
+  word = substitute(varname, '^.', '\l&', '')
+  word = substitute(word, '\(\u\)', '-\1', 'g')
+  word = substitute(word, '_', '-', 'g')
+  word = tolower(word)
+
+  var currline: string
+  currline = getline('.')
+  currline = substitute(currline, varname, word, '')
+  call setline('.', currline)
+
+enddef
+
+def g:CamelCase(): void
+
+  setlocal nosmartcase
+  setlocal iskeyword+=-
+  var varname: string
+  varname = expand('<cword>')
+
+  var word: string
+  word = substitute(varname, '[-_]\(\l\)', '\u\1', 'g')
+
+  var currline: string
+  currline = getline('.')
+  currline = substitute(currline, varname, word, '')
+  call setline('.', currline)
+
+enddef
+
+def g:SnakeCase(): void
+
+  setlocal nosmartcase
+  setlocal iskeyword+=-
+  var varname: string
+  varname = expand('<cword>')
+  setlocal iskeyword-=-
+
+  var word: string
+  word = substitute(varname, '^.', '\l&', '')
+  word = substitute(word, '\(\u\)', '_\1', 'g')
+  word = tolower(word)
+
+  var currline: string
+  currline = getline('.')
+  currline = substitute(currline, varname, word, '')
+  call setline('.', currline)
+
+enddef
+
+defcompile
