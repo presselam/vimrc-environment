@@ -1,7 +1,9 @@
 set ruler
 set expandtab
 "=====[ Auto/Smart Indent ]======
-set ai sm smd
+set autoindent smartindent showmode
+set backspace=indent,eol,start
+
 "=====[ Smarter search ]=======
 set incsearch
 set ignorecase
@@ -11,8 +13,6 @@ set sw=2
 set splitbelow
 set splitright
 set hlsearch
-colorscheme elflord
-set background=dark
 syntax on
 set title
 "           +--Disable hlsearch while loading viminfo
@@ -31,7 +31,7 @@ set printoptions=number:y
 execute pathogen#infect()
 
 "====[ Color ANSI Codes ]===================================
-autocmd BufNewFile,BufReadPost * ColorToggle
+"autocmd BufNewFile,BufReadPost * AnsiEsc
 
 "====[ Goto last location in non-empty files ]=======
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -57,13 +57,19 @@ Nmap           ;r   [reload .vimrc]        :source $MYVIMRC<CR>
 Nmap <silent>  ;v   [Edit .vimrc]          :next $MYVIMRC<CR>
 Nmap           ;vv  [Edit .vim/plugin/...] :next ~/.vim/plugin/
 
-Nmap <silent>  ;n   [toggle numbers]        :set number!<CR>
+Nmap <silent>  ;n        [toggle numbers]  :set number! relativenumber!<CR>
+Nmap <silent>  <Leader>p [toggle paste]    :set paste!<CR> 
 
+"====[ 'Fix' Elflord ]========================================
 set t_Co=256
+set background=dark
+colorscheme elrond
 set t_Sf=[3%p1%dm
 
-hi Search ctermfg=Grey ctermbg=BLUE
-hi Comment ctermfg=white
+hi Search     ctermfg=Grey  ctermbg=darkblue
+hi Comment    ctermfg=white
+hi SignColumn               ctermbg=darkcyan
+
 
 "=====[ Make * respect smartcase and also set @/ (to enable 'n' and 'N') ]======
 nmap *  :let @/ = '\<'.expand('<cword>').'\>' ==? @/ ? @/ : '\<'.expand('<cword>').'\>'<CR>:set hls<CR>
@@ -138,13 +144,11 @@ let b:match_words =
 let b:match_debug = 1
 
 " Work out what the comment character is, by filetype...
-echo &ft
 autocmd FileType           javascript,typescript          let b:cmt = exists('b:cmt') ? b:cmt : '//'
 autocmd FileType           Jenkinsfile                    let b:cmt = exists('b:cmt') ? b:cmt : '//'
 autocmd FileType           *sh,awk,python,perl,perl6,ruby let b:cmt = exists('b:cmt') ? b:cmt : '#'
 autocmd FileType           vim                            let b:cmt = exists('b:cmt') ? b:cmt : '"'
 autocmd FileType           dosbatch                       let b:cmt = exists('b:cmt') ? b:cmt : 'REM '
-autocmd BufNewFile,BufRead *.vim,.vimrc                   let b:cmt = exists('b:cmt') ? b:cmt : '"'
 autocmd BufNewFile,BufRead *.p[lm],.t                     let b:cmt = exists('b:cmt') ? b:cmt : '#'
 autocmd BufNewFile,BufRead *.bat                          let b:cmt = exists('b:cmt') ? b:cmt : 'REM '
 autocmd BufNewFile,BufRead *.js,*.ts                      let b:cmt = exists('b:cmt') ? b:cmt : '//'
@@ -312,5 +316,3 @@ nmap <silent> <C-Down> :ALENext<CR>
 
 let g:indentLine_enabled = 0
 let g:airline_powerline_fonts = 1
-
-runtime plugin/style.vim
