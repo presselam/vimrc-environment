@@ -13,3 +13,6 @@
 [submodule "src/.vim/bundle/vimoutliner"]
 	path = src/.vim/bundle/vimoutliner
 	url = https://github.com/vimoutliner/vimoutliner.git
+[submodule "src/.vim/bundle/vim-fugitive"]
+	path = src/.vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
