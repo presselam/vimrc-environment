@@ -7,3 +7,6 @@
 [submodule "src/.vim/bundle/vim-perl"]
 	path = src/.vim/bundle/vim-perl
 	url = https://github.com/vim-perl/vim-perl.git
+[submodule "src/.vim/bundle/tagbar"]
+	path = src/.vim/bundle/tagbar
+	url = https://github.com/preservim/tagbar.git
