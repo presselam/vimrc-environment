@@ -4,3 +4,6 @@
 [submodule "src/.vim/bundle/ale"]
 	path = src/.vim/bundle/ale
 	url = https://github.com/dense-analysis/ale.git
+[submodule "src/.vim/bundle/vim-perl"]
+	path = src/.vim/bundle/vim-perl
+	url = https://github.com/vim-perl/vim-perl.git
