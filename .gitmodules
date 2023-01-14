@@ -1,3 +1,6 @@
 [submodule "src/.vim/bundle/vim-airline"]
 	path = src/.vim/bundle/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
+[submodule "src/.vim/bundle/ale"]
+	path = src/.vim/bundle/ale
+	url = https://github.com/dense-analysis/ale.git
