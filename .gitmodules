@@ -10,3 +10,6 @@
 [submodule "src/.vim/bundle/tagbar"]
 	path = src/.vim/bundle/tagbar
 	url = https://github.com/preservim/tagbar.git
+[submodule "src/.vim/bundle/vimoutliner"]
+	path = src/.vim/bundle/vimoutliner
+	url = https://github.com/vimoutliner/vimoutliner.git
