@@ -209,7 +209,11 @@ def TPV_setup()
 enddef
 
 def TPV_teardown()
-  echo "teardown"
+  # Remove any active highlighting ...
+  try
+    call matchdelete(match_id)
+  catch /./
+  endtry
 enddef
 
 

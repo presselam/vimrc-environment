@@ -7,7 +7,23 @@
 
 source "$HOME/bin/common.sh"
 
-BINDIR=$(readlink -f "$(dirname "$0")")
+# BINDIR=$(readlink -f "$(dirname "$0")")
+
+declare commit
+declare verbose
+
+args=$(getopt -o vc --long commit,verbose -n "$(basename "$0")" -a -- "$@")
+
+eval set -- "${args}"
+  while :
+  do
+    case "$1" in
+      -c | --commit)  commit=1;  shift 1;;
+      -v | --verbose) verbose=1; shift 1;;
+      --) shift; break ;;
+      *) echo "Unexpected option: $1"
+    esac
+  done
 
 # Implementation here
 

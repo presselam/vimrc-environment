@@ -207,7 +207,7 @@ function! ToggleBlock () range
  vmap <silent> # :call ToggleBlock()<CR>
 
  "=====[ Auto-setup for template scripts and modules ]===========
- augroup Perl_Setup
+ augroup FileTemplates
   autocmd!
   autocmd BufNewFile *.p[lm] 0r !file_template <afile>
   autocmd BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
@@ -220,6 +220,8 @@ function! ToggleBlock () range
 
   autocmd BufNewFile *.py 0r !file_template <afile>
   autocmd BufNewFile *.py /^[ \t]*[#].*HERE/
+
+  autocmd BufNewFile Pipfile 0r !file_template <afile>
  augroup END
 
 function! Perltidy_diff ()
@@ -236,27 +238,6 @@ function! Perltidy_diff ()
   " Clean up the tidied version...
   call delete(tidy_file)
 endfunction
-
-function! BuffDiff ()
-  let filetype=&ft
-  diffthis
-  vnew | r # | normal! 1Gdd
-  diffthis
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-endfunction
-
-function! GitDiff ()
-  let filetype=&ft
-  let cmd = '%!git show :0:./' . expand('%')
-  diffthis
-  vnew | exe cmd
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-  diffthis
-endfunction
-
-"=====[ gitdiff ]===========================================================
-nmap <silent> ;c  :call BuffDiff()<CR>
-nmap <silent> ;cc :call GitDiff()<CR>
 
 "====[ insert markers ]===================================================
 nmap mm :call Marker()<CR>
@@ -281,24 +262,24 @@ endfunction
 vmap ;s :call SortBlock()<CR>
 
 "====[ formatting ]=========================================
-command! -nargs=1 PadTo :call PadLine(<q-args>)
-function! PadLine (column) 
-  " find the first column position with a whitespace
-  " pad out from there
-  let pos = virtcol('.')
-  let currline = getline('.')
-  while strcharpart(strpart(currline, pos- 1), 0, 1) != ' '
-    if pos == len(currline)
-      break
-    endif
-    let pos += 1
-  endwhile
-
-  let strEnd = strpart(currline, pos-1)
-  let strClean = substitute(strEnd, '^\s*\(.\{-}\)\s*$', '\1', '')
-
-  call setline('.', strpart(currline, 0, pos-1) . repeat(' ', a:column-pos) . strClean) 
-endfunction
+"command! -nargs=1 PadTo :call PadLine(<q-args>)
+"function! PadLine (column) 
+" find the first column position with a whitespace
+" pad out from there
+"  let pos = virtcol('.')
+"  let currline = getline('.')
+"  while strcharpart(strpart(currline, pos- 1), 0, 1) != ' '
+"    if pos == len(currline)
+"      break
+"    endif
+"    let pos += 1
+"  endwhile
+"
+"  let strEnd = strpart(currline, pos-1)
+"  let strClean = substitute(strEnd, '^\s*\(.\{-}\)\s*$', '\1', '')
+"
+"  call setline('.', strpart(currline, 0, pos-1) . repeat(' ', a:column-pos) . strClean) 
+"endfunction
 
 "====[ Argo Workflow ]======================================
 nmap ;as :ArgoSubmit<CR>
@@ -313,6 +294,7 @@ nmap <F12> :TagbarToggle<CR>
 nmap <F11>             :ALEDetail<CR>
 nmap <silent> <C-Up>   :ALEPrevious<CR>
 nmap <silent> <C-Down> :ALENext<CR>
+let g:ale_lint_on_text_changed=1
 
 let g:indentLine_enabled = 0
 let g:airline_powerline_fonts = 1

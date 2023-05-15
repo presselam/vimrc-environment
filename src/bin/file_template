@@ -20,6 +20,7 @@ my %dispatch = (
     '.pm'  => sub { scalar slurp( "$ENV{'HOME'}/.templates/perlmodule" ) },
     '.py' => sub { scalar slurp( "$ENV{'HOME'}/.templates/pyscript" ) },
     'pom.xml' => sub{ scalar slurp("$ENV{'HOME'}/.templates/pomxml") },
+    'Pipfile' => sub{ scalar slurp("$ENV{'HOME'}/.templates/pipfile") },
 );
 
 my $SUFFIX = q{([.][^.]+)\Z};
@@ -31,10 +32,10 @@ sub main {
 
     clean();
 
-    my ($type) = $INFO{FILENAME} =~ m{$SUFFIX}
-        or exit;
+    my ($type) = $INFO{FILENAME} =~ m{$SUFFIX};
 
     my $subref = $dispatch{$type} || $dispatch{$INFO{'FILENAME'}};
+    exit() unless( $subref );
     print( filled_in( $subref->() ) );
 }
 
