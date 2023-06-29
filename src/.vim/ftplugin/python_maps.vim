@@ -11,6 +11,7 @@ nmap <F2>   :!python %<CR>
 
 "=====[ Perltidy ]===========================================================
 let b:ale_fixers=['black']
+let g:ale_virtualenv_dir_names = get(g:, 'ale_virtualenv_dir_names', ['.venv'])
 Nmap ;p   [autoformat the current buffer]   :ALEFix<CR>
 
 "====[ Indent Guides ]======================================

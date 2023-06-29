@@ -97,6 +97,12 @@ def g:PadAssignments()
 
     start -= 1
     currline = getline(start)
+
+    # stop at open braces { or comments
+    if currline =~ '\({\|^\s*#\)'
+      curridx = -1
+      continue
+    endif
     curridx = stridx(currline, "=")
   endwhile
 
@@ -116,6 +122,12 @@ def g:PadAssignments()
 
     lnum += 1
     currline = getline(lnum)
+
+    # stop at closing braces } or comments
+    if currline =~ '\(}\|^\s*#\)'
+      curridx = -1
+      continue
+    endif
     curridx = stridx(currline, "=")
   endwhile
 
