@@ -18,12 +18,14 @@ augroup END
 command! -nargs=1 SEdit :call S3Edit(<q-args>)
 def g:S3Edit(uri: string = expand('<afile>'))
   s3uri = uri
+
+  # echom "s3uri[" .. uri .. "]"
  
   final parts = split(s3uri, '/')
   bufferName = parts[-1]
   bufferFile = tmpPrefix .. '/' .. bufferName
 
-  # final rc = system('aws s3 cp ' .. s3uri .. ' ' .. bufferFile)
+  final rc = system('aws s3 cp ' .. s3uri .. ' ' .. bufferFile)
   # echom "s3-fetch: [" .. rc .. "]"
 
   var buffy = bufwinnr(bufferName)
@@ -33,8 +35,9 @@ def g:S3Edit(uri: string = expand('<afile>'))
   if bufwinnr(bufferName) == -1
     bufload(bufId)
     setbufline(bufId, 1, ['some', 'text'])
-    #execute 'edit ' .. bufferFile
   endif
+
+  execute 'edit ' .. bufferFile
 
 enddef
 
