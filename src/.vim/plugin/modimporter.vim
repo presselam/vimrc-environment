@@ -7,7 +7,7 @@ endif
 g:loaded_modimporter = 1
 
 command! -nargs=1 AddImport :call <SID>MI_add_import(<q-args>)
-nmap ;i :AddImport
+nmap ;i :AddImport<SPACE>
 def MI_add_import(module: string)
   var verb = 'import'
   var terminate = ';'

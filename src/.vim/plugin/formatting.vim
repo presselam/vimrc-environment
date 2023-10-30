@@ -76,6 +76,14 @@ enddef
 noremap == :call PadAssignments()<CR>
 def g:PadAssignments()
 
+  var pad = ' '
+  var pivot = matchstr(getline('.'), '\%' .. col('.') .. 'c.')
+  var nextchar = matchstr(getline('.'), '\%' .. (col('.') + 1) .. 'c.')
+  if index(['=', '>'], nextchar) >= 0
+    pad = ''
+  endif 
+  # echom "[" .. pivot .. "][" .. nextchar .. "]"
+
   var lnum = getpos('.')[1]
 
   var buffer = []
@@ -83,7 +91,7 @@ def g:PadAssignments()
 
   var start = lnum
   var currline = getline(start)
-  var curridx = stridx(currline, "=")
+  var curridx = stridx(currline, pivot)
   while curridx != -1
     var lval = trim(strpart(currline, 0, curridx), " \n\r\t", 2)
     var rval = trim(strpart(currline, curridx + 1))
@@ -93,7 +101,7 @@ def g:PadAssignments()
     if width < wide
       width = wide
     endif
-#    echom "[" .. lval .. "][" .. rval .. "][" .. wide .. "][" .. width .. "]"
+    #  echom "[" .. lval .. "][" .. rval .. "][" .. wide .. "][" .. width .. "]"
 
     start -= 1
     currline = getline(start)
@@ -103,12 +111,12 @@ def g:PadAssignments()
       curridx = -1
       continue
     endif
-    curridx = stridx(currline, "=")
+    curridx = stridx(currline, pivot)
   endwhile
 
   lnum += 1
   currline = getline(lnum)
-  curridx = stridx(currline, "=")
+  curridx = stridx(currline, pivot)
   while curridx != -1 
     var lval = trim(strpart(currline, 0, curridx), " \n\r\t", 2)
     var rval = trim(strpart(currline, curridx + 1))
@@ -128,12 +136,12 @@ def g:PadAssignments()
       curridx = -1
       continue
     endif
-    curridx = stridx(currline, "=")
+    curridx = stridx(currline, pivot)
   endwhile
 
   lnum = start + 1
   for line in buffer
-    setline(lnum, line[0] .. repeat(' ', width - len(line[0])) .. ' = ' .. line[1])
+    setline(lnum, line[0] .. repeat(' ', width - len(line[0])) .. ' ' .. pivot .. pad .. line[1])
     lnum += 1
   endfor
 enddef
