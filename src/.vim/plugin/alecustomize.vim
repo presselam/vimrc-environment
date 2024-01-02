@@ -1,4 +1,3 @@
-
 vim9script
 
 if exists("g:ale_customized")
@@ -12,3 +11,4 @@ g:ale_customized = 1
 
 hi ALEVirtualTextWarning  term=italic    ctermfg=DarkMagenta        guifg=#00aaaa    cterm=italic,undercurl
 
+nmap <F1>              :ALEToggle<CR>

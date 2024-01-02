@@ -93,10 +93,8 @@ noremap <Leader>mt :!make test TEST_VERBOSE=1<CR>
 noremap <Leader>mi :!make install<CR>
 
 noremap  <F9>  :ga<CR>
-"nnoremap * :set hls<CR>:exec "let @/='\\<".expand("<cword>")."\\>'"<CR>
 noremap  <BS>  :set hls!<CR>
 noremap  <F10> 0o######## DEV-ONLY ########<ESC>j0
-noremap  <F12> :!cvs diff -w % <Bar> colorize<CR>
 nnoremap <silent> <Leader>k mk:exe 'match Search /<Bslash>%'.line(".").'l/'<CR>
 "=====[ Extend a previous match ]=====================================
 nnoremap //   /<C-R>/
@@ -111,7 +109,6 @@ function! TrimTrailingWS ()
 endfunction
 
 "====[ Use persistent undo ]=================
-
 if has('persistent_undo')
     " Save all undo files in a single location (less messy, more risky)...
     set undodir=$HOME/.VIM_UNDO_FILES
@@ -223,6 +220,9 @@ function! ToggleBlock () range
   autocmd BufNewFile *.py /^[ \t]*[#].*HERE/
 
   autocmd BufNewFile Pipfile 0r !file_template <afile>
+
+  autocmd BufNewFile *.vim 0r !file_template <afile>
+  autocmd BufNewFile *.vim /^[ \t]*[#].*implementation[ \t]\+here/
  augroup END
 
 function! Perltidy_diff ()
@@ -261,26 +261,6 @@ function! SortBlock () range
 endfunction
 
 vmap ;s :call SortBlock()<CR>
-
-"====[ formatting ]=========================================
-"command! -nargs=1 PadTo :call PadLine(<q-args>)
-"function! PadLine (column) 
-" find the first column position with a whitespace
-" pad out from there
-"  let pos = virtcol('.')
-"  let currline = getline('.')
-"  while strcharpart(strpart(currline, pos- 1), 0, 1) != ' '
-"    if pos == len(currline)
-"      break
-"    endif
-"    let pos += 1
-"  endwhile
-"
-"  let strEnd = strpart(currline, pos-1)
-"  let strClean = substitute(strEnd, '^\s*\(.\{-}\)\s*$', '\1', '')
-"
-"  call setline('.', strpart(currline, 0, pos-1) . repeat(' ', a:column-pos) . strClean) 
-"endfunction
 
 "====[ Argo Workflow ]======================================
 nmap ;as :ArgoSubmit<CR>
