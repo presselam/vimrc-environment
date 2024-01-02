@@ -9,6 +9,9 @@ RSYC_OPT=-avhc
 BUNDLE=$(patsubst src/.vim/bundle/%, %, $(wildcard src/.vim/bundle/*))
 
 diff :
+	diff -rwa src/.vim ${HOME}/.vim      || true
+
+brief :
 	diff -rwaq src/.vim ${HOME}/.vim      || true
 
 fake :
