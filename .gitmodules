@@ -19,3 +19,6 @@
 [submodule "src/.vim/bundle/nerdtree"]
 	path = src/.vim/bundle/nerdtree
 	url = https://github.com/preservim/nerdtree.git
+[submodule "src/.vim/bundle/vim-aws-s3"]
+	path = src/.vim/bundle/vim-aws-s3
+	url = https://github.com/presselam/vim-aws-s3.git
