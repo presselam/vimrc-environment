@@ -12,4 +12,5 @@ set iskeyword+=:
 "iab upo printObject(); use Toolkit;<ESC>3ba
 
 "====[ clang-tidy ]=========================================
-Nmap ;p   [tidy the current buffer]   :%!clang-format -style=file %<CR>
+let g:ale_java_checkstyle_config = '/usr/share/checkstyle/google_checks.xml'
+Nmap ;p   [tidy the current buffer]   :%!clang-format -style=file:$HOME/.clang-format %<CR>
