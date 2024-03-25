@@ -8,8 +8,8 @@ let b:did_java_maps = 1
 set iskeyword+=:
 
 "=====[ Shortcuts ]=========================================================
-"iab utq quick(); use Toolkit;<ESC>3ba
-"iab upo printObject(); use Toolkit;<ESC>3ba
+iab sysout System.out.println();<ESC>ba
+iab syserr System.err.println();<ESC>ba
 
 "====[ clang-tidy ]=========================================
 let g:ale_java_checkstyle_config = '/usr/share/checkstyle/google_checks.xml'

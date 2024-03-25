@@ -22,3 +22,6 @@
 [submodule "src/.vim/bundle/vim-aws-s3"]
 	path = src/.vim/bundle/vim-aws-s3
 	url = https://github.com/presselam/vim-aws-s3.git
+[submodule "src/.vim/bundle/fzf"]
+	path = src/.vim/bundle/fzf
+	url = https://github.com/junegunn/fzf.vim.git

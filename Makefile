@@ -1,4 +1,4 @@
-INCLUDE=--include='.vim/***' --include='.templates/***' --include='bin'
+INCLUDE=--include='.vim/***'
 
 BIN_FILES=$(patsubst src/%,%,$(wildcard src/bin/*))
 INCLUDE += $(addprefix --include=, $(BIN_FILES))
