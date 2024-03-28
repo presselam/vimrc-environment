@@ -79,3 +79,4 @@ endif
 
 "" the :Write command
 command -buffer -nargs=* -complete=file -range=% -bang Write call s:PerlSynDo("<bang>"=="!","<line1>,<line2>write<bang> <args>")
+delcommand Windows  " fzf adds this conflicting command which I won't use

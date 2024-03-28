@@ -31,9 +31,6 @@ set printoptions=number:y
 "====[ Pathogen Runtime ]===================================
 execute pathogen#infect()
 
-"====[ Color ANSI Codes ]===================================
-"autocmd BufNewFile,BufReadPost * AnsiEsc
-
 "====[ Goto last location in non-empty files ]=======
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
@@ -147,6 +144,7 @@ autocmd FileType           Jenkinsfile                    let b:cmt = exists('b:
 autocmd FileType           *sh,awk,python,perl,perl6,ruby let b:cmt = exists('b:cmt') ? b:cmt : '#'
 autocmd FileType           vim                            let b:cmt = exists('b:cmt') ? b:cmt : '"'
 autocmd FileType           dosbatch                       let b:cmt = exists('b:cmt') ? b:cmt : 'REM '
+autocmd FileType           sql                            let b:cmt = exists('b:cmt') ? b:cmt : '--'
 autocmd BufNewFile,BufRead *.p[lm],.t                     let b:cmt = exists('b:cmt') ? b:cmt : '#'
 autocmd BufNewFile,BufRead *.bat                          let b:cmt = exists('b:cmt') ? b:cmt : 'REM '
 autocmd BufNewFile,BufRead *.js,*.ts                      let b:cmt = exists('b:cmt') ? b:cmt : '//'
