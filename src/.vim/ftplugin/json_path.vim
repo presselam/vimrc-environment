@@ -58,7 +58,7 @@ def JSONPath()
     pad = 1
   endif
 
-  echom '[' .. len(nodes) .. "][" .. name .. "][" .. token .. "][" .. &signcolumn .. "]"
+  # echom '[' .. len(nodes) .. "][" .. name .. "][" .. token .. "][" .. &signcolumn .. "]"
   
   var path = b:JsonPathDelimiter .. join(filter(copy(nodes), 'v:val != ""'), b:JsonPathDelimiter)
   if name != '' 

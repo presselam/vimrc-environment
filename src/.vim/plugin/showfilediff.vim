@@ -104,11 +104,11 @@ def SFD_TextChanged()
     endif
 
     system(cmd .. " > " .. g:sfd_debug_log)
-    echom "[" .. id .. "][" .. str .. "]"
-      .. "[" .. oldLine .. "]"
-      .. "[" .. oldCount .. "]"
-      .. "[" .. newLine .. "]"
-      .. "[" .. newCount .. "]"
+    # echom "[" .. id .. "][" .. str .. "]"
+    #   .. "[" .. oldLine .. "]"
+    #   .. "[" .. oldCount .. "]"
+    #   .. "[" .. newLine .. "]"
+    #   .. "[" .. newCount .. "]"
     
   endfor
 enddef
