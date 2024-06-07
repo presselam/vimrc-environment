@@ -16,6 +16,7 @@ set splitright
 set hlsearch
 syntax on
 set title
+set swapfile
 "           +--Disable hlsearch while loading viminfo
 "           | +--Remember marks for last 500 files
 "           | |    +--Remember up to 10000 lines in each register

@@ -3,15 +3,16 @@ if exists("b:did_python_maps")
 endif
 let b:did_python_maps = 1
 
-set iskeyword+=:
+set iskeyword-=:
 
 let b:cmt = '# '
 
 nmap <F2>   :!python %<CR>
 
 "=====[ Perltidy ]===========================================================
+"let g:ale_virtualenv_dir_names = get(g:, 'ale_virtualenv_dir_names', ['.venv'])
 let b:ale_fixers=['black']
-let g:ale_virtualenv_dir_names = get(g:, 'ale_virtualenv_dir_names', ['.venv'])
+let g:ale_linters = { 'python': ['pylint'] }
 Nmap ;p   [autoformat the current buffer]   :ALEFix<CR>
 
 "====[ Indent Guides ]======================================
