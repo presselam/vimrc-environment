@@ -25,3 +25,6 @@
 [submodule "src/.vim/bundle/fzf"]
 	path = src/.vim/bundle/fzf
 	url = https://github.com/junegunn/fzf.vim.git
+[submodule "src/.vim/bundle/surround"]
+	path = src/.vim/bundle/surround
+	url = https://tpope.io/vim/surround.git
