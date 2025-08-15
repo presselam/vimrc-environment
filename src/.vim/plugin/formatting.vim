@@ -107,7 +107,7 @@ def g:PadAssignments()
     currline = getline(start)
 
     # stop at open braces { or comments
-    if currline =~ '\({\|^\s*#\)'
+    if currline =~ '\({\s*$\|^\s*#\)'
       curridx = -1
       continue
     endif
@@ -132,7 +132,7 @@ def g:PadAssignments()
     currline = getline(lnum)
 
     # stop at closing braces } or comments
-    if currline =~ '\(}\|^\s*#\)'
+    if currline =~ '\(^\s*}\|^\s*#\)'
       curridx = -1
       continue
     endif

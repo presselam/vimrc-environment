@@ -9,11 +9,22 @@ let b:cmt = '# '
 
 nmap <F2>   :!python %<CR>
 
-"=====[ Perltidy ]===========================================================
-"let g:ale_virtualenv_dir_names = get(g:, 'ale_virtualenv_dir_names', ['.venv'])
+
+"====[ tweak ale for python ]===============================
+Nmap ;p   [autoformat the current buffer]   :ALEFix<CR>
 let b:ale_fixers=['black']
 let g:ale_linters = { 'python': ['pylint'] }
-Nmap ;p   [autoformat the current buffer]   :ALEFix<CR>
+
+let current_dir = expand('%:p:h')
+while current_dir !=# '/'  " Loop until root directory is reached
+  let venv = glob(current_dir . '/.*-venv/', 1)
+  if venv != ''
+    let g:ale_python_pylint_options = '--init-hook ''import sys; sys.path.append("' . venv . '/lib/python3.11/site-packages")'''
+  endif
+
+  let current_dir = fnamemodify(current_dir, ':h')  " Move up one directory
+endwhile
+
 
 "====[ Indent Guides ]======================================
 set ts=4
