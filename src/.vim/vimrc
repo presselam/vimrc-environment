@@ -1,5 +1,6 @@
 set ruler
 
+set mouse=
 set expandtab
 "=====[ Auto/Smart Indent ]======
 set autoindent smartindent showmode
@@ -141,7 +142,7 @@ let b:match_debug = 1
 
 " Work out what the comment character is, by filetype...
 autocmd FileType           javascript,typescript          let b:cmt = exists('b:cmt') ? b:cmt : '//'
-autocmd FileType           Jenkinsfile                    let b:cmt = exists('b:cmt') ? b:cmt : '//'
+autocmd FileType           Jenkinsfile,go                 let b:cmt = exists('b:cmt') ? b:cmt : '//'
 autocmd FileType           *sh,awk,python,perl,perl6,ruby let b:cmt = exists('b:cmt') ? b:cmt : '#'
 autocmd FileType           vim                            let b:cmt = exists('b:cmt') ? b:cmt : '"'
 autocmd FileType           dosbatch                       let b:cmt = exists('b:cmt') ? b:cmt : 'REM '
@@ -222,6 +223,8 @@ function! ToggleBlock () range
 
   autocmd BufNewFile *.vim 0r !file_template <afile>
   autocmd BufNewFile *.vim /^[ \t]*[#].*implementation[ \t]\+here/
+
+  autocmd BufNewFile *.go 0r !file_template <afile>
  augroup END
 
 function! Perltidy_diff ()
