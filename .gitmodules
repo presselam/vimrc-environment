@@ -1,33 +1,33 @@
 [submodule "src/.vim/bundle/vim-airline"]
-	path = src/.vim/bundle/vim-airline
+	path = src/bundle/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
 [submodule "src/.vim/bundle/ale"]
-	path = src/.vim/bundle/ale
+	path = src/bundle/ale
 	url = https://github.com/dense-analysis/ale.git
 [submodule "src/.vim/bundle/vim-perl"]
-	path = src/.vim/bundle/vim-perl
+	path = src/bundle/vim-perl
 	url = https://github.com/vim-perl/vim-perl.git
 [submodule "src/.vim/bundle/tagbar"]
-	path = src/.vim/bundle/tagbar
+	path = src/bundle/tagbar
 	url = https://github.com/preservim/tagbar.git
 [submodule "src/.vim/bundle/vimoutliner"]
-	path = src/.vim/bundle/vimoutliner
+	path = src/bundle/vimoutliner
 	url = https://github.com/vimoutliner/vimoutliner.git
 [submodule "src/.vim/bundle/vim-fugitive"]
-	path = src/.vim/bundle/vim-fugitive
+	path = src/bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
 [submodule "src/.vim/bundle/nerdtree"]
-	path = src/.vim/bundle/nerdtree
+	path = src/bundle/nerdtree
 	url = https://github.com/preservim/nerdtree.git
 [submodule "src/.vim/bundle/vim-aws-s3"]
-	path = src/.vim/bundle/vim-aws-s3
+	path = src/bundle/vim-aws-s3
 	url = https://github.com/presselam/vim-aws-s3.git
 [submodule "src/.vim/bundle/fzf"]
-	path = src/.vim/bundle/fzf
+	path = src/bundle/fzf
 	url = https://github.com/junegunn/fzf.vim.git
 [submodule "src/.vim/bundle/surround"]
-	path = src/.vim/bundle/surround
+	path = src/bundle/surround
 	url = https://tpope.io/vim/surround.git
 [submodule "src/.vim/bundle/vim-clang-format"]
-	path = src/.vim/bundle/vim-clang-format
+	path = src/bundle/vim-clang-format
 	url = https://github.com/rhysd/vim-clang-format.git

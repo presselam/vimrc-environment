@@ -1,36 +1,17 @@
-INCLUDE=--include='.vim/***'
-
-BIN_FILES=$(patsubst src/%,%,$(wildcard src/bin/*))
-INCLUDE += $(addprefix --include=, $(BIN_FILES))
-
-EXCLUDE=--exclude='*' --exclude='*/.git/' --exclude='*.bak'
 RSYC_OPT=-avhc
-
-BUNDLE=$(patsubst src/.vim/bundle/%, %, $(wildcard src/.vim/bundle/*))
+EXCLUDE=--exclude='*/.git' --exclude='*/.git/' --exclude='*.bak'
 
 diff :
-	diff -rwa src/.vim ${HOME}/.vim      || true
+	diff -rwa src/ ${HOME}/.vim/      || true
 
 brief :
-	diff -rwaq src/.vim ${HOME}/.vim      || true
+	diff -rwaq src/ ${HOME}/.vim/     || true
 
 fake :
-	rsync --dry-run $(RSYC_OPT) $(EXCLUDE) $(INCLUDE) src/ ${HOME}/
+	rsync --dry-run $(RSYC_OPT) $(EXCLUDE) src/ ${HOME}/.vim/
 
 sync :
-	rsync $(RSYC_OPT) $(INCLUDE) $(EXCLUDE) ${HOME}/ src/
+	rsync --delete $(RSYC_OPT) --exclude='bundle/' $(EXCLUDE) ${HOME}/.vim/ src/
 
 install :
-	rsync $(RSYC_OPT) $(INCLUDE) $(EXCLUDE) src/ ${HOME}/
-
-pathogen:
-	installBundles.sh
-
-.PHONY: bundles $(BUNDLE)
-bundles: $(addprefix bundle-, $(BUNDLE))
-	echo $()
-
-bundle-%:
-	git submodule update --init --recursive
-	git submodule update --remote --merge
-	cd src/.vim/bundle/$*; git pull origin master
+	rsync --delete $(RSYC_OPT) $(EXCLUDE) src/ ${HOME}/.vim/
