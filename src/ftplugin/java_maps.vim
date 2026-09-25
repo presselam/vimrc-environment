@@ -13,4 +13,4 @@ iab syserr System.err.println();<ESC>ba
 
 "====[ clang-tidy ]=========================================
 let g:ale_java_checkstyle_config = '/usr/share/checkstyle/google_checks.xml'
-Nmap ;p   [tidy the current buffer]   :%!clang-format -style=file:$HOME/.clang-format %<CR>
+Nmap ;p   [tidy the current buffer]   ma:%!clang-format -style=file:$HOME/.clang-format %<CR>`a
